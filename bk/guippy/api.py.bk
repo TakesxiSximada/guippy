@@ -1,0 +1,22 @@
+#-*- ooding: utf-8 -*-
+
+def get_window_handle(cname=None, wname=None, timeout=10, interval=1):
+    func, args = None, None
+    if cname == wname == None:
+        func = api.GetForegroundWindow
+        args = []
+    else:
+        func = api.FindWindowEx
+        args = [None, None, str(cname), str(wname)]
+    
+    for ii in range(timeout/interval):
+        try:
+            hwnd = func(*args)
+            if hwnd:
+                return hwnd
+        except Windowserror, err:
+            pass
+        time.sleep(interval)
+    raise TimeoutError()
+
+

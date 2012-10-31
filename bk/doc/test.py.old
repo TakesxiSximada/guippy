@@ -1,0 +1,135 @@
+#! /usr/bin/env python
+#-*- coding: utf-8 -*-
+##
+"""guppy test script
+"""
+__author__ = 'TakEsxima'
+__email__ = 'tak.esxima@gmail.com'
+__credits__ = (__author__,)
+__maintainer__ = '{0}<{1}>'.format(__author__, __email__)
+
+##
+
+##
+__copyright__ = 'Copyright (C) 2012 - NOW, {0}'.format(__author__)
+##
+
+import os
+import sys
+import optparse
+
+__DEBUG__ = False
+try:
+    __DEBUG__ = os.environ['DEBUG'].upper() == 'TRUE'
+except KeyError:
+    pass
+
+ERRORCODE = 255
+
+## special code
+import unittest
+
+import guippy
+import guippy.api
+import guippy.decorator
+import guippy.window
+import guippy.mouse
+import guippy.keyboard
+import guippy.clipboard
+import guippy.error
+import guippy.util
+import guippy.shortcut
+
+def active(func):
+    def _wrap(self, *args, **kwds):
+        self.win.active()
+        return func(self, *args, **kwds)
+    return _wrap
+
+class Test(unittest.TestCase):
+    pass
+
+
+class WindowTest(Test):
+    def setUp(self):
+        self.win = guippy.window.Window('Emacs', 'emacs@HILBERT')
+        self.win.catch()
+
+    def runTest(self):
+        win = self.win
+        win.catch()
+        win.active()
+        self._run_test()
+
+    def _run_test(self):
+        win = self.win
+        self.assertEqual(win.hwnd, guippy.api.GetForegroundWindow())
+
+class WindowRectTest(WindowTest):
+    def _run_test(self):
+        win = self.win
+        rect = win.get_rect()
+        print rect.left, rect.right, rect.top, rect.bottom,
+
+class WindowChildTest(WindowTest):
+    def _run_test(self):
+        win = self.win
+        rect = win.get_child()
+
+
+class WindowPopupTest(WindowTest):
+    def _run_test(self):
+        win = self.win
+        rect = win.get_popup()
+
+class MouseTest(Test):
+    def runTest(self):
+        mouse.Mouse.move(0)
+
+
+#_entry_point = # setting callable object
+
+# test code
+
+def parse_args(argv=None):
+    argv = sys.argv[1:] if argv is None else argv
+    parser = optparse.OptionParser()
+    ##
+    opts, args = parser.parse_args(argv)
+
+    rargs = []
+    kwds = {}
+
+    ##
+    return rargs, kwds, None, None
+
+def main():
+    args, kwds, unittest_, doctest_ = parse_args()
+
+    exc_doctest()        
+    exc_unittest()
+
+def exc_unittest():
+    import unittest
+    tests = [WindowTest(),
+             WindowRectTest(),
+             WindowPopupTest(),
+             WindowChildTest(),
+             MouseTest(),
+             ]
+    
+    # add tests
+    
+    suite = unittest.TestSuite()
+    suite.addTests(tests)
+    runner = unittest.TextTestRunner()
+    runner.run(suite)
+    return 0
+
+def exc_doctest():
+    import doctest
+    doctest.testmod()
+    return 0
+
+if __name__ == '__main__':
+    main()

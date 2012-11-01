@@ -2,6 +2,7 @@
 """To emulate keyboard.
 
 """
+import api
 
 class KeyboardCore(object):
     def push(self):

@@ -1,7 +1,7 @@
 #-*- coding: utf-8 -*-
 from .mouse import Mouse
 from .window import Window
-from .keyboard import Keybaord
+from .keyboard import Keyboard
 from .clipboard import Clipboard
 
 class PedigreeGuippy(object):

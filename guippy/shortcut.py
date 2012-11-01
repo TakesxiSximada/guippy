@@ -1,12 +1,14 @@
 #-*- coding: utf-8 -*-
+import api
+
 import ctypes
-from . import api
+
 
 class Display:
     XMAX = api.GetSystemMetrics(api.SM_CXSCREEN)
     YMAX = api.GetSystemMetrics(api.SM_CYSCREEN)
     
-class Normarize:
+class Normarizer(object):
     COEF_X = 0xFFFF/float(Display.XMAX)
     COEF_Y = 0xFFFF/float(Display.YMAX)
     
@@ -25,7 +27,22 @@ class Normarize:
         rect.top = cls.yy(rect.top)
         rect.bottom = cls.yy(rect.bottom)
         return rect
+
+    @classmethod
+    def point(cls, _point):
+        _point.x = cls.xx(_point.x)
+        _point.y = cls.yy(_point.y)
+        return _point
         
+class Unnormarizer(Normarizer):
+    @classmethod
+    def xx(cls, value):
+        return int(float(value)/cls.COEF_X)
+    
+    @classmethod
+    def yy(cls, value):
+        return int(float(value)/cls.COEF_Y)
+    
 def get_window_handle(cname=None, wname=None, timeout=10, interval=1):
     func, args = None, None
     if cname == wname == None:

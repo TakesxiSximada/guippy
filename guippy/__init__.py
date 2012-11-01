@@ -28,8 +28,12 @@ __copyright__ = 'Copyright (c) 2012 {0}'.format(__author__)
 __license__ = 'GNU General Public License Version 3'
 __status__ = 'Development'
 
+import mouse
+import keyboard
+import window
+import clipboard
+import api
 from .guippy import *  # import all objects in guippy.
-from . import mouse, keyboard, window, clipboard
 from .mouse import Mouse
 from .keyboard import Keyboard
 from .window import Window
@@ -41,5 +45,6 @@ __all__ = (
     # in other modules
     'mouse', 'keyboard', 'window', 'clipboard',
     'Mouse', 'Keyboard', 'Window', 'Clipboard',
+    'api'
     )
 

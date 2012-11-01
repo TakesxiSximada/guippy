@@ -3,12 +3,11 @@
 
 WindowsAPIを呼び出すためのI/Fと関連したユーティリティ関数です。
 """
+import util
 import ctypes
 from ctypes import WINFUNCTYPE
 from ctypes.wintypes import BOOL, UINT, LONG, LPCWSTR, HWND, WPARAM, LPARAM, \
     RECT, HGLOBAL, LPVOID, HANDLE
-
-from . import util
 
 LPCTSTR = LPCWSTR
 user32 = ctypes.windll.user32
@@ -54,6 +53,7 @@ GetForegroundWindow = user32.GetForegroundWindow
 SetForegroundWindow = user32.SetForegroundWindow
 GetWindowRect = user32.GetWindowRect
 
+
 GlobalAlloc = get_kernel32_api('GlobalAlloc', HGLOBAL, _en)
 GlobalFree = get_kernel32_api('GlobalFree', HGLOBAL, _en)
 GlobalLock = get_kernel32_api('GlobalLock', LPVOID, _en)
@@ -65,9 +65,10 @@ GetClipboardData = get_user32_api('GetClipboardData', HANDLE, _en)
 keybd_event = user32.keybd_event
 mouse_event = user32.mouse_event
 
+GetCursorPos = user32.GetCursorPos
 GetSystemMetrics = user32.GetSystemMetrics
-del _en
 
+del _en
 ## ~~~ Windows Defines ~~~
 
 # defined in winbase.h

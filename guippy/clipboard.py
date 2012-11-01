@@ -1,7 +1,6 @@
 #-*- coding: utf-8 -*-
 """For clipboard.
 """
-from . import api
 from .api import HWND, GlobalLock, OpenClipboard, GetClipboardData,\
     CF_UNICODETEXT, GlobalUnlock, CloseClipboard
 

@@ -3,152 +3,231 @@
 
 """
 import api
+from .api import keybd_event, KEYUP
+from .decorator import interval
+
+PUSH_DEFAULT = True
+RELEASE_DEFAULT = True
+
+def special_key(func):
+    def _wrap(obj, push=True, release=True, message=''):
+        code = func()
+        if push:
+            obj.push(code)
+        obj.punch(message)
+        if release:
+            obj.release(code)
 
 class KeyboardCore(object):
-    def push(self):
+
+    @classmethod
+    @interval
+    def push(cls, code):
         """Push the key.
         """
-        pass
-    
-    def release(self):
+        return keybd_event(code, 0, 0, 0)
+        
+    @classmethod
+    @interval
+    def release(cls, code):
         """Release the key.
         """
-        pass
+        return keybd_event(code, 0, KEYUP, 0)
+    
+    @classmethod
+    def key(cls, code, push=PUSH_DEFAULT, release=RELEASE_DEFAULT):
+        if push:
+            cls.push(code)
 
-    def put(self):
+        if release:
+            cls.release(code)
+
+    @classmethod
+    def _put(cls, char):
         """Input a character.
         """
-        pass
+        for code, push, release in Keycode.char2codes(char):
+            cls.key(code, push, release)
 
-    def punch(self):
+    @classmethod
+    def punch(cls, message):
         """Input messages.
         """
-        pass
+        for char in message:
+            cls._put(char)
 
 class KeyboardElement(KeyboardCore):
-    def F(self, num):
+    @classmethod
+    def F(cls, num):
         """Type the function key.
          Avariable num is integer. It is processing after convert integer.
         If can not convert integer then will raise TypeError.
         """
-        pass
+        for code, push, release in Keycode.func2codes(num):
+            cls.key(code, push, release)
 
-    def cltr(self):
+    @classmethod
+    @special_key
+    def ctrl(cls, message, push=True, release=True):
         """Type the control key."""
-        pass
+        return api.VK_LCONTROL
 
-    def alt(self):
+    @classmethod
+    @special_key
+    def alt(cls):
         """Type the alt key."""
-        pass
+        return api.VK_ALT_L
 
-    def fn(self):
+    @classmethod
+    @special_key
+    def fn(cls):
         """Type the fn key."""
-        pass
-
-    def shift(self):
+        assert False, 'not support'
+    
+    @classmethod
+    @special_key
+    def shift(cls):
         """Type the shift key."""
-        pass
+        return api.VK_SHIFT
 
-    def capslock(self):
+    @classmethod
+    @special_key
+    def capslock(cls):
         """Type the caps lock key."""
-        pass
+        return api.VK_CAPITAL
 
-    def tab(self):
+    @classmethod
+    @special_key
+    def tab(cls):
         """Type the tab key."""
-        pass
+        return api.VK_TAB
 
-    def lang(self):
+    @classmethod
+    @special_key
+    def lang(cls):
         """Tpe a language key.
          Use to switch between input languages. Change language is depends on a
         respectively system.
         """
-        pass
+        return api.VK_OEM_AUTO
 
-    def space(self):
-        pass
+    @classmethod
+    def space(cls):
+        cls.punch(' ')
 
-    def windows(self):
-        pass
+    @classmethod
+    @special_key
+    def windows(cls):
+        assert False, 'not supported'
 
-    def mac(self):
-        pass
+    @classmethod
+    @special_key
+    def mac(cls):
+        assert False, 'not supported'
 
-    def up(self):
-        pass
+    @classmethod
+    @special_key
+    def up(cls):
+        return api.VK_UP
 
-    def up(self):
-        pass
+    @classmethod
+    @special_key
+    def down(cls):
+        return api.VK_DOWN
 
-    def down(self):
-        pass
+    @classmethod
+    @special_key
+    def right(cls):
+        return api.VK_RIGHT
 
-    def right(self):
-        pass
+    @classmethod
+    @special_key
+    def left(cls):
+        return api.VK_LEFT
 
-    def left(self):
-        pass
+    @classmethod
+    def enter(cls, message=''):
+        cls.punch(message+'\n')
 
-    def enter(self):
-        pass
-
-    def backspace(self):
-        pass
+    @classmethod
+    @special_key
+    def backspace(cls):
+        return api.VK_BACK
     
-    def insert(self):
-        pass
+    @classmethod
+    @special_key
+    def insert(cls):
+        return api.INSERT
     
-    def delete(self):
-        pass
+    @classmethod
+    @special_key
+    def delete(cls):
+        return api.VK_DELETE
 
-    def menu(self):
-        pass
+    @classmethod
+    @special_key
+    def menu(cls):
+        return api.VK_MENU
 
-    def printscreen(self):
-        pass
+    @classmethod
+    @special_key
+    def printscreen(cls):
+        return api.VK_SNAPSHOT
 
-    def numlock(self):
-        pass
+    @classmethod
+    @special_key
+    def numlock(cls):
+        return api.VK_NUMLOCK
 
-    def pause(self):
-        pass
+    @classmethod
+    @special_key
+    def pause(cls):
+        return api.VK_PAUSE
 
-    def home(self):
-        pass
+    @classmethod
+    @special_key
+    def home(cls):
+        return api.VK_HOME
 
-    def end(self):
-        pass
+    @classmethod
+    @special_key
+    def end(cls):
+        return api.VK_END
 
-    def page_up(self):
-        pass
+    @classmethod
+    @special_key
+    def page_up(cls):
+        return api.VK_PRIOR
 
-    def page_down(self):
-        pass
+    @classmethod
+    @special_key
+    def page_down(cls):
+        return api.VK_NEXT
 
-    def escape(self):
-        pass
+    @classmethod
+    @special_key
+    def escape(cls):
+        return api.VK_ESCAPE
 
-    def convert(self):
-        pass
+    @classmethod
+    @special_key
+    def convert(cls):
+        return api.VK_CONVERT
 
-    def nonconvert(self):
-        pass
+    @classmethod
+    @special_key
+    def nonconvert(cls):
+        return api.VK_NONCONVERT
 
-    def kana(self):
-        pass
-
+    @classmethod
+    @special_key
+    def kana(cls):
+        return VK_KANA
 
 class Keyboard(KeyboardElement):
     def comb(self):
         pass
 
-    def mark_line(self):
-        pass
-
-    def mark_all(self):
-        pass
-
-
-   
 class Keycode(object):
     FUNC_CODE = {1: api.VK_F1,
                  2: api.VK_F2,
@@ -220,11 +299,12 @@ class Keycode(object):
     def char2codes(cls, char):
         char = str(char)
         shift_on = False
-        
         try:
-            if char.isalpha() and char.upper():
-                pass # on shift
-            else:
+            if char.isupper():
+                pass
+            elif char.islower():
+                raise KeyError # unuse shift key
+            else:# a mark
                 char = cls.SHIFT_CHAR[char]
         except KeyError:
             pass
@@ -244,6 +324,7 @@ class Keycode(object):
         if shift_on:
             yield api.VK_LSHIFT, False, True
 
+    @classmethod
     def func2codes(cls, num):
         try:
             code = cls.FUNC_CODE[num]

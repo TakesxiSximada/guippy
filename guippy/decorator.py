@@ -1,7 +1,7 @@
 #-*- coding: utf-8 -*-
 import time
 
-INTERVAL = 0.07
+INTERVAL = 0.02
 
 def interval(func, sec=INTERVAL):
     def _wrap(self, *args, **kwds):

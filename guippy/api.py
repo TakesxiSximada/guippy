@@ -87,7 +87,7 @@ del _sm
 
 _gw = util.enum() # defined windows.h
 GW_CHILD = _gw(5)
-GW_ENABLEPOPUP = _gw()
+GW_ENABLEDPOPUP = _gw()
 del _gw
 
 _me = util.enum(0x0001, lambda x: x<<1) 

@@ -33,6 +33,8 @@ import keyboard
 import window
 import clipboard
 import api
+import error
+import shortcut
 from .guippy import *  # import all objects in guippy.
 from .mouse import Mouse
 from .keyboard import Keyboard
@@ -45,6 +47,6 @@ __all__ = (
     # in other modules
     'mouse', 'keyboard', 'window', 'clipboard',
     'Mouse', 'Keyboard', 'Window', 'Clipboard',
-    'api'
+    'api', 'error', 'shortcut',
     )
 

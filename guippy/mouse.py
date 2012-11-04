@@ -2,11 +2,12 @@
 """This and that in order to control the mouses.
 """
 from .api import mouse_event, GetCursorPos, ME_MOVE, ME_ABSOLUTE, ME_WHEEL, \
-    ME_LEFTDOWN, ME_LEFTUP, ME_MIDDLEDOWN, ME_MIDDLEUP, ME_RIGHTDOWN, ME_RIGHTUP   
+    ME_LEFTDOWN, ME_LEFTUP, ME_MIDDLEDOWN, ME_MIDDLEUP, ME_RIGHTDOWN, ME_RIGHTUP
+from .shortcut import Normalizer 
 from .decorator import interval
 
 import ctypes
-from ctypes.wintypes import POINTgxs
+from ctypes.wintypes import POINT
 
 LEFT, MIDDLE, RIGHT = range(3)
 BUTTONDOWN_EVENT = {LEFT: ME_LEFTDOWN,
@@ -20,9 +21,9 @@ BUTTONUP_EVENT = {LEFT: ME_LEFTUP,
                   }
 
 DEFAULT_ABSOLUTE = True
-DEFAULT_NORMARIZE = True
+DEFAULT_NORMALIZE = True
 
-def _mouse_event(code, xx=0. yy=0, wheel=0, flag=0):
+def _mouse_event(code, xx=0, yy=0, wheel=0, flag=0):
     """I/F with mouse_event().
     
     It created for setting default value.
@@ -31,22 +32,18 @@ def _mouse_event(code, xx=0. yy=0, wheel=0, flag=0):
 
 def call_mouse_event(func):
     """A decorator to call the mouse_event().
-
-    このデコレータによってデコレーションされたメソッドは、
-    その戻り値を引数としてmouse_event()をcallします。
-
-    デコレーションされるメソッドの戻り値の型によって、
-    mouse_event()への引数の渡し方が変化します。
-
-    辞書型であればキーワード付き可変長引数として、
-    リストかタプルであればキーワードなし可変長引数として、
-    その他であれば単なる引数として、
-    mouse_event()に渡します。
-
-    この挙動で問題となるケースはmouse_event()の引数として、
-    辞書型かリストかタプルを渡したいときです。その場合デコレーションされる
-    メソッドの戻り値は、更にリストかタプルでラッピングしなければなりません。
-    とはいえこのような引数はmouse_event()自身が受け付けないのでエラーになるでしょう。
+    
+     The return value of the method that has been decorated by it, is used as
+    arguments to the mouse_event(). To passing arguments for mouse_event() is
+    affected by the return value type of decorated method by it. Pass arguments
+    to mouse_event() as variable length keyword arguments if that type is
+    dictionary. Pass arguments to it as variable length non keyword arguments
+    if that is list or tuple. Pass arguments to it as simple arguments if other
+    than those. This behavior will be a problem when pass a dictionary or a list
+    or a tuple as a arguments to mouse_event(). In that case, the return value of
+    method decorated by it be must wrapping moreover to a list or tuple. But
+    mouse_event() is reject arguments as list or tuple or dictionary. Behavior is
+    not defined.
     """
 
     def _wrap(obj, *args, **kwds):
@@ -116,37 +113,37 @@ class Position(object):
     @classmethod
     @call_mouse_event
     def jump(cls, xx, yy,
-             normarize=DEFAULT_NORMARIZE, absolute=DEFAULT_ABSOLUTE):
+             normalize=DEFAULT_NORMALIZE, absolute=DEFAULT_ABSOLUTE):
         """Moving mouse pointer.
 
-         The xx and yy is coord. The normarize is coord normarize switch.
+         The xx and yy is coord. The normalize is coord normalize switch.
         The absolute is switch of to using absolute coord.
         """
         code = ME_MOVE
-        if normarize:
+        if normalize:
             code |= ME_ABSOLUTE
 
-        if normarize and not absolute:
-            nowx, nowy = cls.now(normarize)
+        if normalize and not absolute:
+            nowx, nowy = cls.now(normalize)
             xx += nowx
             yy += nowy
-        elif not normarize and absolute:
-            nowx, nowy = cls.now(normarize)
-            xx -= nowx
-            yy -= nowy
+        elif not normalize and absolute:
+            nowx, nowy = cls.now(normalize)
+            xx = -nowx + xx
+            yy = -nowy + yy
         return code, xx, yy
 
     @staticmethod
-    def now(normarize=DEFAULT_NORMARIZE):
+    def now(normalize=DEFAULT_NORMALIZE):
         """Getting now coord of mouse pointer.
         
-         The normarize is switch of to using mormarize coord.
+         The normalize is switch of to using mormarize coord.
         """
         point = POINT()
         lppoint = ctypes.pointer(point)
         GetCursorPos(lppoint)
-        if normarize:
-            point = Normarizer.point(point)
+        if normalize:
+            point = Normalizer.point(point)
         return point.x, point.y
 
 class Mouse(Button, Position):

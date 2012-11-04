@@ -140,7 +140,7 @@ class MouseTest(TestCase):
                            jump_coord, prediction_coord, now_coord, width)
         
 
-    def test_yuri(self):
+    def test_point(self):
         mouse = guippy.Mouse()
         mouse.jump(23, 45)
         mouse.point(34,63)

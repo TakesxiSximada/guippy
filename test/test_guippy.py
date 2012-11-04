@@ -3,12 +3,12 @@
 import startup
 import guippy
 
-
 import string
 import random
 import unittest
 from unittest import TestCase
 
+# test test
 area = lambda target, base, width=10: (base-width) <= target <= (base+width)
 
 LOOP_MAX = 0xFFF
@@ -140,3 +140,9 @@ class MouseTest(TestCase):
                            jump_coord, prediction_coord, now_coord, width)
         
 
+    def test_yuri(self):
+        mouse = guippy.Mouse()
+        mouse.jump(23, 45)
+        mouse.point(34,63)
+
+ 

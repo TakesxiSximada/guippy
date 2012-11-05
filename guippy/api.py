@@ -1,7 +1,7 @@
 #-*- coding: utf-8 -*-
-"""WindowsAPIとのI/F
+"""I/F for Windows API.
 
-WindowsAPIを呼び出すためのI/Fと関連したユーティリティ関数です。
+I/F for to call Windows API, and those related to it.
 """
 import util
 import ctypes
@@ -14,7 +14,7 @@ user32 = ctypes.windll.user32
 kernel32 = ctypes.windll.kernel32
 
 def errcheck_null(result, func, args):
-    """WindowsAPIの結果の確認用関数"""
+    """Function of checking resutl value for WindowsAPI"""
     if result is None:
         raise ctypes.WinError()
     return args
@@ -311,33 +311,31 @@ del _vk
 KEYUP = 2
 
 class SystemMetrics(object):
-    """システムメトリクス定義用クラス
-    
-    このクラスはインスタンス化しなくても使用できる
-    ユーティリティクラスです。
+    """System metrics class
+
+    This class is utility. Can use statically.
     """
     SM_CXSCREEN = 0
     SM_CYSCREEN = 1
 
     @staticmethod
     def get(screen):
-        """システムメトリクスを取得します。
+        """Getting the system metrics.
         
-        screenはシステムメトリクス用の定数です。
-        SM_CXSCREENかSM_CYSCREENのどちらかでなければなりません。
-        但し別の値を入れてもこの関数がエラーするこはありません。
-        WindowsAPIのGetSystemMetrics()によって拾えた値を返します。
+        The screen is constant for the system metrics. Must be either SM_CXSCREEN
+        or SM_CYSCREEN. However, even if you give the other value, it will not
+        error. It will return GetSystemMetrics() of Windows API returned value.
         """
         return user32.GetSystemMetrics(screen)
     
     @classmethod
     def X(cls):
-        """Xのシステムメトリクスを取得します"""
+        """Getting X of system metcics."""
         return cls.get(cls.SM_CXSCREEN)
         
     @classmethod
     def Y(cls):
-        """Yのシステムメトリクスを取得します"""
+        """Getting Y of system metrics."""
         return cls.get(cls.SM_CYSCREEN)
         
 

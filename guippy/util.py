@@ -1,15 +1,13 @@
 #-*- coding: utf-8 -*-
-"""ユーティリティとなる関数やクラス
+"""This utility may use other modules.
 
-ここにあるものはパッケージに依存しないものです。
-パッケージにすればいいのですが、量が少ないので
-ここに定義しています。
+ What has been defined here, does not depend on this package.
 """
 import os
 
 class Enum(object):
-    """C言語のenumのような使い方が出来る
-    """
+    """like to use enum of C.
+x    """
 
     DEFAULT_INCREMENT = lambda x: x+1
 
@@ -34,26 +32,13 @@ enum = lambda *args, **kwds: Enum(*args, **kwds).next
 
 _MD = enum() # mkdir return code
 class Mkdir(object):
-    """ディレクトリ作成用ユーティリティ
-
-    先頭のMは小文字でも良かったのですが、PEPに則り大文字にしました。
-    小文字のユーティリティは別のところで準備することにしました。
-    """
-
+    """Make a directory."""
     SUCCESS = _MD() 
     FAIL = _MD()    
 
     @classmethod
     def p(cls, path):
-        """ディレクトリ作成に失敗しても例外を発生させない
-        
-        既に作成されたディレクトリに対し作成関数をcallすると例外が発生します。
-        それがウザいことがあるので例外を発生させないものを作成しました。
-        
-        pの名前は'mkdir -p'の-pからとっています。
-        失敗したかはリターンコードで判別できます。
-        SUCCESSが返った時は成功しています。
-        FAILが返った時は何らかの例外が発生した事を意味します。
+        """like to use "mkdir -p"
         """
         try:
             os.makedirs(path)
@@ -63,8 +48,5 @@ class Mkdir(object):
             return cls.SUCCESS
 del _MD
 
-## 'mkdir -p'に似た感じで使えるように小文字も準備しました
-## こんな感じで使ってください。 'mkdir.p(PATH)'
-## きっとソースが綺麗になります。
 mkdir = Mkdir 
               

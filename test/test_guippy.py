@@ -145,4 +145,5 @@ class MouseTest(TestCase):
         mouse.jump(23, 45)
         mouse.point(34,63)
 
- 
+if __name__ == '__main__':
+    unittest.main()

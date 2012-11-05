@@ -10,16 +10,16 @@ PUSH_DEFAULT = True
 RELEASE_DEFAULT = True
 
 def special_key(func):
-    def _wrap(obj, push=True, release=True, message=''):
-        code = func()
+    def _wrap(obj, message='', push=True, release=True):
+        code = func(obj)
         if push:
             obj.push(code)
         obj.punch(message)
         if release:
             obj.release(code)
+    return _wrap
 
 class KeyboardCore(object):
-
     @classmethod
     @interval
     def push(cls, code):
@@ -68,7 +68,7 @@ class KeyboardElement(KeyboardCore):
 
     @classmethod
     @special_key
-    def ctrl(cls, message, push=True, release=True):
+    def ctrl(cls):
         """Type the control key."""
         return api.VK_LCONTROL
 
@@ -118,7 +118,7 @@ class KeyboardElement(KeyboardCore):
     @classmethod
     @special_key
     def windows(cls):
-        assert False, 'not supported'
+        return api.VK_LWIN
 
     @classmethod
     @special_key

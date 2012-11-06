@@ -3,6 +3,7 @@ from .mouse import Mouse
 from .window import Window
 from .keyboard import Keyboard
 from .clipboard import Clipboard
+from .shortcut import Normalizer
 
 class PedigreeGuippy(object):
     def __init__(self):
@@ -14,25 +15,32 @@ class PedigreeGuippy(object):
     def mark_line(self):
         self.click()
         self.kbd.home()
-        self.kbg.shift(push=True, release=False)
+        self.kbd.shift(push=True, release=False)
         self.kbd.end()
-        self.kbg.shift(push=False, release=True)
+        self.kbd.shift(push=False, release=True)
 
-    def makr_all(self):
+    def mark_all(self):
         self.click()
         self.kbd.page_up()
         self.kbd.home
-        self.kbg.shift(push=True, release=False)
+        self.kbd.shift(push=True, release=False)
         self.kbd.page_down()
         self.kbd.end()
-        self.kbg.shift(push=False, release=True)
+        self.kbd.shift(push=False, release=True)
 
-    def chase(self, xx=0, yy=0, normalize=True):
+    def chase(self, xx=0, yy=0, normalize=True, click=False):
         rect = self.win.get_rect(normalize)
         xx = Normalizer.xx(xx) + rect.left
         yy = Normalizer.yy(yy) + rect.top
-        self.ms.move(xx, yy)
+        self.ms.jump(xx, yy)
         
+        try:
+            for ii in range(int(click)):
+                self.ms.click()
+        except (TypeError, ValueError):
+            if click:
+                self.ms.click()
+
     def get_area(self):
         pass
 

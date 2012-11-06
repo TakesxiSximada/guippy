@@ -6,6 +6,8 @@ import api
 from .api import keybd_event, KEYUP
 from .decorator import interval
 
+import time
+
 PUSH_DEFAULT = True
 RELEASE_DEFAULT = True
 
@@ -117,8 +119,14 @@ class KeyboardElement(KeyboardCore):
 
     @classmethod
     @special_key
-    def windows(cls):
+    def _windows(cls):
         return api.VK_LWIN
+
+    @classmethod
+    def windows(cls, *args, **kwds):
+        cls._windows(*args, **kwds)
+        time.sleep(1)
+        
 
     @classmethod
     @special_key

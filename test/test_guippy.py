@@ -2,18 +2,35 @@
 #-*- coding: utf-8 -*-
 import startup
 import guippy
+from guippy.error import Timeout
 
+import time
 import string
 import random
 import unittest
 from unittest import TestCase
 
-# test test
+# test
 area = lambda target, base, width=10: (base-width) <= target <= (base+width)
 
 LOOP_MAX = 0xFFF
+ASCII_CHARS = string.letters + string.digits + string.punctuation
 
-class NormalizeTest(TestCase):
+class GuippyTest(TestCase):
+    NOTEPAD = u'Notepad', u'無題 - メモ帳'
+    
+    def active_notepad(self):
+        try:
+            win = guippy.Window()
+            win.catch(*self.NOTEPAD)
+            win.active()
+        except Timeout:
+            kbd = guippy.Keyboard()
+            kbd.windows('r')
+            kbd.enter('notepad')
+            time.sleep(1)
+
+class NormalizeTest(GuippyTest):
     def test_normalize_denormalize(self):
         from guippy.shortcut import Normalizer, Denormalizer
         
@@ -27,24 +44,35 @@ class NormalizeTest(TestCase):
             _func(Normalizer.xx, Denormalizer.xx, ii)
             _func(Normalizer.yy, Denormalizer.yy, ii)
 
-class WindowTest(TestCase):
+class WindowTest(GuippyTest):
     def setUp(self):
         self.win = guippy.Window()
 
     def test_get_window(self):
-        self.win.get_window()
-        self.win.get_window('emacs', 'emacs@HILBERT')
+        self.active_notepad()
+        hwnd_aa = self.win.get_window()
+        guippy.Keyboard.windows('d')
+        hwnd_bb = self.win.get_window(*self.NOTEPAD)
+        self.assertEqual(hwnd_aa, hwnd_bb)
 
     def test_catch(self):
+        self.active_notepad()
         self.win.catch()
-        self.win.catch('emacs', 'emacs@HILBERT')
+        hwnd_aa = self.win.hwnd
+        guippy.Keyboard.windows('d')
+        self.win.catch(*self.NOTEPAD)
+        hwnd_bb = self.win.hwnd
+        self.assertEqual(hwnd_aa, hwnd_bb)
 
-    def test_active(self):
-        self.win.catch('emacs', 'emacs@HILBERT')
+    def _test_active(self):
+        self.active_notepad()
         self.win.active()
+        self.win.catch()
+        hwnd_aa = self.win.hwnd
+        guippy.Keyboard.windows('d')
         
-        no_initialize_win = guippy.Window()
-        no_initialize_win.active()
+        hwnd_bb = self.win.get_window()
+        self.assertEqual(hwnd_aa, hwnd_bb)
 
     def test_rect(self):
         self.win.get_rect(True)
@@ -56,11 +84,11 @@ class WindowTest(TestCase):
     def test_get_child(self):
         self.win.get_child()
 
-class KeyboardTest(TestCase):
+class KeyboardTest(GuippyTest):
     def _test_punch(self):
         guippy.Keyboard.punch('#' + string.printable)
 
-class KeycodeTest(TestCase):
+class KeycodeTest(GuippyTest):
     def test_char2codes(self):
         gen = guippy.keyboard.Keycode.char2codes('C')
         self.assertEqual((160, True, False), gen.next()) # push shift
@@ -80,7 +108,13 @@ class KeycodeTest(TestCase):
         gen = guippy.keyboard.Keycode.func2codes(1)
         self.assertEqual((112, True, True), gen.next())
         
-class MouseTest(TestCase):
+class ClipboardTest(GuippyTest):
+    def test_test(self):
+        data = ASCII_CHARS
+        guippy.Clipboard.set(data)
+        self.assertEqual(data, guippy.Clipboard.get())
+
+class MouseTest(GuippyTest):
     def test_now(self):
         ms = guippy.Mouse()
         for ii in range(LOOP_MAX):

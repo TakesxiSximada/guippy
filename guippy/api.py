@@ -19,6 +19,12 @@ def errcheck_null(result, func, args):
         raise ctypes.WinError()
     return args
 
+def errcheck_nonull(result, func, args):
+    if result is not None:
+        raise ctypes.WinError()
+    return args
+
+
 def fptr_from_dll(dll, funcname, restype=None, errcheck=None):
     fptr = getattr(dll, funcname)
     if restype is not None:
@@ -29,6 +35,10 @@ def fptr_from_dll(dll, funcname, restype=None, errcheck=None):
 
 get_user32_api = lambda *args, **kwds: fptr_from_dll(user32, *args, **kwds)
 get_kernel32_api = lambda *args, **kwds: fptr_from_dll(kernel32, *args, **kwds)
+
+## ~~~ stdlib ~~~
+strcpy = ctypes.cdll.msvcrt.strcpy
+wcscpy = ctypes.cdll.msvcrt.wcscpy
 
 ## ~~~ WindowsAPI ~~~
 _en = errcheck_null
@@ -52,24 +62,33 @@ GetWindow = user32.GetWindow
 GetForegroundWindow = user32.GetForegroundWindow
 SetForegroundWindow = user32.SetForegroundWindow
 GetWindowRect = user32.GetWindowRect
-
+OpenIcon = user32.OpenIcon
+CloseWindow = user32.CloseWindow
+DestroyWindow = user32.DestroyWindow
+ShowWindow = user32.ShowWindow
+MoveWindow = user32.MoveWindow
+#SendMessage = user32.SendMessage
 
 GlobalAlloc = get_kernel32_api('GlobalAlloc', HGLOBAL, _en)
-GlobalFree = get_kernel32_api('GlobalFree', HGLOBAL, _en)
+GlobalFree = get_kernel32_api('GlobalFree', HGLOBAL, errcheck_nonull)
 GlobalLock = get_kernel32_api('GlobalLock', LPVOID, _en)
 GlobalUnlock = get_kernel32_api('GlobalUnlock', BOOL, _en)
 OpenClipboard = get_user32_api('OpenClipboard', BOOL, _en)
 CloseClipboard = get_user32_api('CloseClipboard', BOOL, _en)
 GetClipboardData = get_user32_api('GetClipboardData', HANDLE, _en)
+SetClipboardData = get_user32_api('SetClipboardData', HANDLE, _en)
+EmptyClipboard = get_user32_api('EmptyClipboard', BOOL, _en)
 
 keybd_event = user32.keybd_event
 mouse_event = user32.mouse_event
 
 GetCursorPos = user32.GetCursorPos
 GetSystemMetrics = user32.GetSystemMetrics
-
 del _en
 ## ~~~ Windows Defines ~~~
+
+SW_SHOWMAXIMIZED = 3
+GMEM_DDESHARE = 0x2000
 
 # defined in winbase.h
 GMEM_MOVEABLE = 0x0002
@@ -89,6 +108,12 @@ _gw = util.enum() # defined windows.h
 GW_CHILD = _gw(5)
 GW_ENABLEDPOPUP = _gw()
 del _gw
+
+_wm = util.enum()
+WM_NULL = _wm(0x0000)
+WM_DESTROY = _wm(0x0002)
+WM_CLOSE = _wm(0x0010)
+del _wm
 
 _me = util.enum(0x0001, lambda x: x<<1) 
 ME_MOVE = _me()

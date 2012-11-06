@@ -2,7 +2,8 @@
 """For window procedures.
 """
 from .api import GetForegroundWindow, FindWindowEx, SetForegroundWindow, \
-    GetWindowRect, GW_CHILD, GW_ENABLEDPOPUP, GetWindow
+    GetWindowRect, GW_CHILD, GW_ENABLEDPOPUP, GetWindow, OpenIcon, ShowWindow,\
+    SW_SHOWMAXIMIZED, CloseWindow
 from .shortcut import Normalizer
 from .decorator import interval
 from .error import Timeout
@@ -81,11 +82,16 @@ class Window(object):
     def height(self):
         pass
 
+    def restore(self):
+        OpenIcon(self.hwnd)
+        self.active()
+    
     def maximize(self):
-        pass
+        ShowWindow(self.hwnd, SW_SHOWMAXIMIZED)
+        
 
     def minimize(self):
-        pass
+        CloseWindow(self.hwnd)
 
     def get_popup(self):
         child = Window()

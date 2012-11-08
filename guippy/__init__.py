@@ -14,7 +14,7 @@ example.
    >>> gp = guippy.Guippy()
    >>> gp.catch()
    >>> gp.punch()
-   >>> gp.close()
+
 
 Let's get started.
 """
@@ -29,11 +29,13 @@ import clipboard
 import api
 import error
 import shortcut
+import application
 from .guippy import *  # import all objects in guippy.
 from .mouse import Mouse
 from .keyboard import Keyboard
 from .window import Window
 from .clipboard import Clipboard
+
 
 __all__ = (
     # in guippy module
@@ -41,6 +43,6 @@ __all__ = (
     # in other modules
     'mouse', 'keyboard', 'window', 'clipboard',
     'Mouse', 'Keyboard', 'Window', 'Clipboard',
-    'api', 'error', 'shortcut',
+    'api', 'error', 'shortcut', 'application',
     )
 

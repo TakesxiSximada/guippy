@@ -83,15 +83,18 @@ class Window(object):
         pass
 
     def restore(self):
+        self.minimize()
         OpenIcon(self.hwnd)
         self.active()
+        time.sleep(1)
     
     def maximize(self):
         ShowWindow(self.hwnd, SW_SHOWMAXIMIZED)
-        
+        time.sleep(1)
 
     def minimize(self):
         CloseWindow(self.hwnd)
+        time.sleep(1)
 
     def get_popup(self):
         child = Window()

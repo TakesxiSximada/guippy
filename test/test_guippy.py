@@ -88,6 +88,9 @@ class KeyboardTest(GuippyTest):
     def _test_punch(self):
         guippy.Keyboard.punch('#' + string.printable)
 
+    def test_alt(self):
+        guippy.Keyboard.alt()
+
 class KeycodeTest(GuippyTest):
     def test_char2codes(self):
         gen = guippy.keyboard.Keycode.char2codes('C')

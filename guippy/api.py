@@ -266,8 +266,8 @@ VK_LSHIFT = _vk(0xa0) # shift left
 VK_RSHIFT = _vk() # shift right
 VK_LCONTROL = _vk() # ctrl left
 VK_RCONTROL = _vk() # ctrl right
-VK_LMENU = ALT_L = _vk() # alt left
-VK_RMENU = ALT_R = _vk() # alt right
+VK_LMENU = ALT_L = VK_ALT_L = _vk() # alt left
+VK_RMENU = ALT_R = VK_ALT_R = _vk() # alt right
 VK_BROWSER_BACK = _vk()
 VK_BROWSER_FORWARD = _vk()
 VK_BROWSER_REFRESH = _vk()

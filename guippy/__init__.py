@@ -18,7 +18,7 @@ example.
 
 Let's get started.
 """
-__version__ = '0.1.1'
+__version__ = '$Revision$'
 __author__ = 'tak.esxima'
 __credits__ = (__author__, )
 

@@ -41,7 +41,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'guippy'
-copyright = u'2012, Tak Esxima <tak.esxima@gmail.com>'
+copyright = u'2012, Tak Esxima'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -91,7 +91,7 @@ pygments_style = 'sphinx'
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'sphinxdoc'
+html_theme = 'haiku'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -150,7 +150,7 @@ html_static_path = ['_static']
 #html_show_sourcelink = True
 
 # If true, "Created using Sphinx" is shown in the HTML footer. Default is True.
-#html_show_sphinx = True
+html_show_sphinx = False
 
 # If true, "(C) Copyright ..." is shown in the HTML footer. Default is True.
 #html_show_copyright = True
@@ -184,7 +184,7 @@ latex_elements = {
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
   ('index', 'guippy.tex', u'guippy Documentation',
-   u'Tak Esxima \\textless{}tak.esxima@gmail.com\\textgreater{}', 'manual'),
+   u'Tak Esxima \\textless{}\\textgreater{}', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -214,7 +214,7 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('index', 'guippy', u'guippy Documentation',
-     [u'Tak Esxima <tak.esxima@gmail.com>'], 1)
+     [u'Tak Esxima'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -228,7 +228,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
   ('index', 'guippy', u'guippy Documentation',
-   u'Tak Esxima <tak.esxima@gmail.com>', 'guippy', 'One line description of project.',
+   u'Tak Esxima', 'guippy', 'One line description of project.',
    'Miscellaneous'),
 ]
 

@@ -19,6 +19,23 @@ Contents:
    
    tutorial/*
 
+サンプル動画
+===============
+
+ - http://www.youtube.com/watch?v=7W_4m6KxUHE
+
+モジュールリファレンス
+==========================
+Contents:
+
+.. toctree::
+   :glob:
+   
+   module_reference/*
+
+
+
+
 Indices and tables
 ==================
 

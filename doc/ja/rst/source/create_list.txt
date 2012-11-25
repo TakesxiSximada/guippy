@@ -1,0 +1,148 @@
+api.py
+======
+def errcheck_null(result, func, args):
+def errcheck_nonull(result, func, args):
+def fptr_from_dll(dll, funcname, restype=None, errcheck=None):
+class SystemMetrics(object):
+    def get(screen):
+    def X(cls):
+    def Y(cls):
+application.py
+==============
+class Application(object):
+    def names(cls):
+class Notepad(Application):
+clipboard.py
+============
+def _get_unicode_as_globaldata(data):
+class Clipboard(object):
+    def set(data):
+    def get(hwnd=None):
+decorator.py
+============
+def interval(func, sec=INTERVAL):
+    def _wrap(self, *args, **kwds):
+def specialkey(func):
+    def _wrap(cls, message):
+error.py
+========
+class Error(BaseException):
+class Timeout(Error):
+guippy.py
+=========
+class PedigreeGuippy(object):
+    def __init__(self):
+    def mark_line(self):
+    def mark_all(self):
+    def chase(self, xx=0, yy=0, normalize=True, click=False):
+    def get_area(self):
+    def get_line(self):
+class HybridGuippy(PedigreeGuippy, Mouse, Keyboard, Window, Clipboard):
+    def __init__(self):
+keyboard.py
+===========
+def special_key(func):
+    def _wrap(obj, message='', push=True, release=True):
+class KeyboardCore(object):
+    def push(cls, code):
+    def release(cls, code):
+    def key(cls, code, push=PUSH_DEFAULT, release=RELEASE_DEFAULT):
+    def _put(cls, char):
+    def punch(cls, message):
+class KeyboardElement(KeyboardCore):
+    def F(cls, num):
+    def ctrl(cls):
+    def alt(cls):
+    def fn(cls):
+    def shift(cls):
+    def capslock(cls):
+    def tab(cls):
+    def lang(cls):
+    def space(cls):
+    def _windows(cls):
+    def windows(cls, *args, **kwds):
+    def mac(cls):
+    def up(cls):
+    def down(cls):
+    def right(cls):
+    def left(cls):
+    def enter(cls, message=''):
+    def backspace(cls):
+    def insert(cls):
+    def delete(cls):
+    def menu(cls):
+    def printscreen(cls):
+    def numlock(cls):
+    def pause(cls):
+    def home(cls):
+    def end(cls):
+    def page_up(cls):
+    def page_down(cls):
+    def escape(cls):
+    def convert(cls):
+    def nonconvert(cls):
+    def kana(cls):
+class Keyboard(KeyboardElement):
+    def comb(self):
+class Keycode(object):
+    def char2codes(cls, char):
+    def func2codes(cls, num):
+mouse.py
+========
+def _mouse_event(code, xx=0, yy=0, wheel=0, flag=0):
+def call_mouse_event(func):
+    def _wrap(obj, *args, **kwds):
+class Button(object):
+    def drag(cls, button=None):
+    def drop(cls, button=None):
+    def click(cls, button=None):
+    def wclick(cls, button=None):
+    def wheel(cls, num=1):
+class Position(object):
+    def jump(cls, xx, yy,
+    def now(normalize=DEFAULT_NORMALIZE):
+class Mouse(Button, Position):
+    def point(cls, *args, **kwds):
+shortcut.py
+===========
+class Display:
+class Normalizer(object):
+    def xx(cls, value):
+    def yy(cls, value):
+    def rect(cls, rect):
+    def point(cls, _point):
+class Denormalizer(Normalizer):
+    def xx(cls, value):
+    def yy(cls, value):
+def get_window_handle(cname=None, wname=None, timeout=10, interval=1):
+def get_window_rect(hwnd, absolute=True):
+util.py
+=======
+class Enum(object):
+    def __init__(self, default=0, increment=None):
+    def next(self, value=None, increment=None):
+class Mkdir(object):
+    def p(cls, path):
+window.py
+=========
+class TooLong(BaseException):
+class Window(object):
+o    def __init__(self, cname=None, wname=None, hwnd=None):
+    def get_window(cname=None, wname=None, timeout=TIMEOUT):
+    def catch(self, cname=None, wname=None):
+    def active(self):
+    def move(self, left, top):
+    def resize(self, width=None, height=None):
+    def close(self):
+    def get_rect(self, normalize=True):
+    def get_cname(self):
+    def get_wname(self):
+    def width(self):
+    def width(self, value):
+    def height(self):
+    def height(self, value):
+    def restore(self):
+    def maximize(self):
+    def minimize(self):
+    def get_popup(self):
+    def get_child(self):

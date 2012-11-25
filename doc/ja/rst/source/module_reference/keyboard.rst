@@ -1,25 +1,35 @@
-#-*- coding: utf-8 -*-
-"""To emulate keyboard.
+============================================
+:mod:`guippy.keyboard` --- キーボードの操作
+============================================
 
-"""
-import api
-from .api import keybd_event, KEYUP
-from .decorator import interval
+.. module:: guippy.keyboard
+   :synopsis: キーボードの操作
 
-import time
+.. sectionauthor:: Tak Esxima
 
-PUSH_DEFAULT = True
-RELEASE_DEFAULT = True
+:mod:`guippy.keyboard` はキーボードを操作する機能を用意しています。
 
-def special_key(func):
-    def _wrap(obj, message='', push=True, release=True):
-        code = func(obj)
-        if push:
-            obj.push(code)
-        obj.punch(message)
-        if release:
-            obj.release(code)
-    return _wrap
+.. attribute:: PUSH_DEFAULT
+
+   キーボードを押すかどうかのデフォルト値です。Trueです。
+
+.. attribute:: RELEASE_DEFAULT
+
+   キーボードを放すかどうかのデフォルト値です。Trueです。
+
+.. function:: special_key(func)
+
+   例えばshiftキーやctrlキーのようにキーを押しながら他のキーを押す時のデコレータです。
+
+.. class:: KeyboardCore
+
+   キーボードの基本的な機能を提供します。
+
+:class:`KeyboardCore` クラス
+====================================
+
+   キーボードの基本的な機能を提供します。
+::
 
 class KeyboardCore(object):
     @classmethod

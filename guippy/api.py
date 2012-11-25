@@ -7,9 +7,16 @@ import util
 import ctypes
 from ctypes import WINFUNCTYPE
 from ctypes.wintypes import BOOL, UINT, LONG, LPCWSTR, HWND, WPARAM, LPARAM, \
-    RECT, HGLOBAL, LPVOID, HANDLE
+    RECT, HGLOBAL, LPVOID, HANDLE, LPWSTR
 
+INT = ctypes.c_int
+WPARAM = ctypes.c_int32
+LPARAM = ctypes.c_int32
+LRESULT = ctypes.c_int32
+WM_CLOSE = 0x0010
+LPTSTR =  LPWSTR
 LPCTSTR = LPCWSTR
+
 user32 = ctypes.windll.user32
 kernel32 = ctypes.windll.kernel32
 
@@ -23,7 +30,6 @@ def errcheck_nonull(result, func, args):
     if result is not None:
         raise ctypes.WinError()
     return args
-
 
 def fptr_from_dll(dll, funcname, restype=None, errcheck=None):
     fptr = getattr(dll, funcname)
@@ -58,6 +64,28 @@ FindWindowEx = WINFUNCTYPE(HWND, HWND, HWND, LPCTSTR, LPCTSTR)(
      ))
 FindWindowEx.errcheck = _en
 
+GetClassNameW = WINFUNCTYPE(INT, HWND, LPTSTR, INT)(
+    ('GetClassNameW', user32),
+    ((1, 'hWnd'),
+     (1, 'lpClassName'),
+     (1, 'nMaxCount'),
+     ))
+
+GetWindowTextW = WINFUNCTYPE(INT, HWND, LPTSTR, INT)(
+    ('GetWindowTextW', user32),
+    ((1, 'wHnd'),
+     (1, 'lpString'),
+     (1, 'nMaxCount'),
+     ))
+
+SendMessageA = ctypes.windll.user32.SendMessageA
+SendMessageA.argtypes = (HWND, UINT, WPARAM, LPARAM)
+SendMessageA.restype = LRESULT
+
+MoveWindow = ctypes.windll.user32.MoveWindow
+MoveWindow.argtypes = (HWND, INT, INT, INT, INT, BOOL)
+MoveWindow.restype = BOOL
+
 GetWindow = user32.GetWindow
 GetForegroundWindow = user32.GetForegroundWindow
 SetForegroundWindow = user32.SetForegroundWindow
@@ -66,7 +94,7 @@ OpenIcon = user32.OpenIcon
 CloseWindow = user32.CloseWindow
 DestroyWindow = user32.DestroyWindow
 ShowWindow = user32.ShowWindow
-MoveWindow = user32.MoveWindow
+#MoveWindow = user32.MoveWindow
 #SendMessage = user32.SendMessage
 
 GlobalAlloc = get_kernel32_api('GlobalAlloc', HGLOBAL, _en)

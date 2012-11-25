@@ -3,7 +3,9 @@
 """
 from .api import GetForegroundWindow, FindWindowEx, SetForegroundWindow, \
     GetWindowRect, GW_CHILD, GW_ENABLEDPOPUP, GetWindow, OpenIcon, ShowWindow,\
-    SW_SHOWMAXIMIZED, CloseWindow
+    SW_SHOWMAXIMIZED, CloseWindow, GetClassNameW, GetWindowTextW, SendMessageA,\
+    WM_CLOSE, MoveWindow
+
 from .shortcut import Normalizer
 from .decorator import interval
 from .error import Timeout
@@ -11,11 +13,16 @@ from .error import Timeout
 from ctypes.wintypes import RECT
 import ctypes
 import time
+
 TIMEOUT = 5
+BUFFER_LEN = 0xFF
+
+class TooLong(BaseException):
+    pass
 
 class Window(object):
-    def __init__(self, cname=None, wname=None):
-        self.hwnd = None
+    def __init__(self, cname=None, wname=None, hwnd=None):
+        self.hwnd = hwnd
         self.cname = cname
         self.wname = wname
 
@@ -56,11 +63,22 @@ class Window(object):
     def active(self):
         SetForegroundWindow(self.hwnd)
 
-    def move(self):
-        pass
+    def move(self, left, top):
+        rect = self.get_rect(normalize=False)
+        width = rect.right - rect.left
+        height = rect.bottom - rect.top
+        repaint = 1
+        return MoveWindow(self.hwnd, left, top, width, height, repaint)
+
+    def resize(self, width, height):
+        rect = self.get_rect(normalize=False)
+        top = rect.top
+        left = rect.left
+        repaint = 1
+        return MoveWindow(self.hwnd, left, top, width, height, repaint)
 
     def close(self):
-        pass
+        SendMessageA(self.hwnd, WM_CLOSE, 0, 0)
     
     def get_rect(self, normalize=True):
         rect = RECT()
@@ -73,12 +91,32 @@ class Window(object):
             rect.bottom = Normalizer.yy(rect.bottom)
         return rect
 
+    def get_cname(self):
+        for ii in range(1, 5):
+            length = BUFFER_LEN * ii
+            name = ctypes.create_unicode_buffer(length)
+            GetClassNameW(self.hwnd, name, length)
+            if len(name.value) < length:
+                return name.value
+        raise TooLong()
+    
+    def get_wname(self):
+        for ii in range(1, 5):
+            length = BUFFER_LEN * ii
+            name = ctypes.create_unicode_buffer(length)
+            GetWindowTextW(self.hwnd, name, length)
+            if len(name.value) < length:
+                return name.value
+        raise TooLong()
+    
     def set_rect(self):
         pass
 
+    @property
     def width(self):
         pass
 
+    @property
     def height(self):
         pass
 

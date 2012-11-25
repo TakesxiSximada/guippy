@@ -54,6 +54,7 @@ class WindowTest(GuippyTest):
         guippy.Keyboard.windows('d')
         hwnd_bb = self.win.get_window(*self.NOTEPAD)
         self.assertEqual(hwnd_aa, hwnd_bb)
+        guippy.Keyboard.windows('d')
 
     def test_catch(self):
         self.active_notepad()
@@ -63,6 +64,7 @@ class WindowTest(GuippyTest):
         self.win.catch(*self.NOTEPAD)
         hwnd_bb = self.win.hwnd
         self.assertEqual(hwnd_aa, hwnd_bb)
+        guippy.Keyboard.windows('d')
 
     def _test_active(self):
         self.active_notepad()
@@ -73,6 +75,7 @@ class WindowTest(GuippyTest):
         
         hwnd_bb = self.win.get_window()
         self.assertEqual(hwnd_aa, hwnd_bb)
+        guippy.Keyboard.windows('d')
 
     def test_rect(self):
         self.win.get_rect(True)
@@ -84,6 +87,15 @@ class WindowTest(GuippyTest):
     def test_get_child(self):
         self.win.get_child()
 
+    def test_cname_wname(self):
+        win = guippy.Window()
+        win.catch()
+        now_hwnd = win.hwnd
+        cname = win.get_cname()
+        wname = win.get_wname()
+        new_hwnd = guippy.Window.get_window(cname, wname)
+        self.assertEqual(now_hwnd, new_hwnd)
+        
 class KeyboardTest(GuippyTest):
     def _test_punch(self):
         guippy.Keyboard.punch('#' + string.printable)

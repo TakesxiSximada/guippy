@@ -70,10 +70,14 @@ class Window(object):
         repaint = 1
         return MoveWindow(self.hwnd, left, top, width, height, repaint)
 
-    def resize(self, width, height):
+    def resize(self, width=None, height=None):
         rect = self.get_rect(normalize=False)
         top = rect.top
         left = rect.left
+        if width is None:
+            width = self.width
+        if height is None:
+            height = self.height
         repaint = 1
         return MoveWindow(self.hwnd, left, top, width, height, repaint)
 
@@ -108,18 +112,25 @@ class Window(object):
             if len(name.value) < length:
                 return name.value
         raise TooLong()
-    
-    def set_rect(self):
-        pass
 
     @property
     def width(self):
-        pass
+        rect = self.get_rect(normalize=False)
+        return rect.right - rect.left
+
+    @width.setter
+    def width(self, value):
+        self.resize(width=value)
 
     @property
     def height(self):
-        pass
+        rect = self.get_rect(normalize=False)
+        return rect.bottom - rect.top
 
+    @height.setter
+    def height(self, value):
+        self.resize(height=value)
+        
     def restore(self):
         self.minimize()
         OpenIcon(self.hwnd)
@@ -143,5 +154,3 @@ class Window(object):
         child = Window()
         child.hwnd = GetWindow(self.hwnd, GW_CHILD)
         return child
-
-

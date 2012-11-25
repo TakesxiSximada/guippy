@@ -42,13 +42,12 @@ class PedigreeGuippy(object):
                 self.ms.click()
 
     def get_area(self):
-        pass
+        self.kbd.ctrl('c')
+        return self.cb.get()
 
     def get_line(self):
-        pass
-
-    def poweroff(self):
-        pass
+        self.mark_line()
+        return self.get_area()
 
 class HybridGuippy(PedigreeGuippy, Mouse, Keyboard, Window, Clipboard):
     def __init__(self):

@@ -21,13 +21,18 @@ class TooLong(BaseException):
     pass
 
 class Window(object):
-    def __init__(self, cname=None, wname=None, hwnd=None):
+    def __init__(self, cname=None, wname=None, hwnd=None, timeout=TIMEOUT):
         self.hwnd = hwnd
         self.cname = cname
         self.wname = wname
+        self.timeout = timeout
+
+    def set_timeout(self, value):
+        self.timeout = timeout
 
     @staticmethod
     def get_window(cname=None, wname=None, timeout=TIMEOUT):
+        timeout = TIMEOUT if TIMEOUT is None else timeout
         func = None
         args = None
         if cname == wname == None:
@@ -53,11 +58,11 @@ class Window(object):
             time.sleep(1)
         raise Timeout
          
-    def catch(self, cname=None, wname=None):
+    def catch(self, cname=None, wname=None, timeout=None):
         """Search window handle for cname and wname."""
         self.cname = cname
         self.wname = wname
-        self.hwnd = self.get_window(cname, wname)
+        self.hwnd = self.get_window(cname, wname, timeout)
 
     @interval
     def active(self):

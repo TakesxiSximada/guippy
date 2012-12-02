@@ -32,7 +32,7 @@ class Window(object):
 
     @staticmethod
     def get_window(cname=None, wname=None, timeout=TIMEOUT):
-        timeout = TIMEOUT if TIMEOUT is None else timeout
+        timeout = TIMEOUT if timeout is None else timeout
         func = None
         args = None
         if cname == wname == None:

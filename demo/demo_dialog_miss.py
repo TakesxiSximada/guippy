@@ -59,7 +59,7 @@ class DemoDialog(Tkinter.Frame):
         words = [key for key, value in sorted(self.check_values.items())
                  if value.get()]
         line = ', '.join(words)
-        self.check_entry.set(line)
+        self.check_entry.set(line+'a')
 
     def setup(self):
         checkbox = IntVar()

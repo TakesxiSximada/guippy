@@ -2,7 +2,7 @@
 """To emulate keyboard.
 
 """
-import api
+from . import api
 from .api import keybd_event, KEYUP
 from .decorator import interval
 
@@ -336,7 +336,7 @@ class Keycode(object):
     def func2codes(cls, num):
         try:
             code = cls.FUNC_CODE[num]
-        except KeyError, err:
+        except KeyError as err:
             assert False, 'Not support char: {0}'.format(num)
         else:
             yield code, True, True

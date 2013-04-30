@@ -1,5 +1,5 @@
 #-*- coding: utf-8 -*-
-import api
+from . import api
 
 import ctypes
 
@@ -64,7 +64,7 @@ def get_window_handle(cname=None, wname=None, timeout=10, interval=1):
             hwnd = func(*args)
             if hwnd:
                 return hwnd
-        except Windowserror, err:
+        except Windowserror as err:
             pass
         time.sleep(interval)
     raise TimeoutError()

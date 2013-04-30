@@ -22,15 +22,15 @@ __version__ = '$Revision$'
 __author__ = 'tak.esxima'
 __credits__ = (__author__, )
 
-import mouse
-import keyboard
-import window
-import clipboard
-import api
-import error
-import shortcut
-import application
-from .guippy import *  # import all objects in guippy.
+from . import mouse
+from . import keyboard
+from . import window
+from . import clipboard
+from . import api
+from . import error
+from . import shortcut
+from . import application
+from . import *  # import all objects in guippy.
 from .mouse import Mouse
 from .keyboard import Keyboard
 from .window import Window

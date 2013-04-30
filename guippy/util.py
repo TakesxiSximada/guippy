@@ -42,7 +42,7 @@ class Mkdir(object):
         """
         try:
             os.makedirs(path)
-        except (IOError, OSError, WindowsError), err:
+        except (IOError, OSError, WindowsError) as err:
             return cls.FAIL
         else:
             return cls.SUCCESS

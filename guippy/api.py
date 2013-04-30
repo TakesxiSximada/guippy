@@ -3,7 +3,7 @@
 
 I/F for to call Windows API, and those related to it.
 """
-import util
+from . import util
 import ctypes
 from ctypes import WINFUNCTYPE
 from ctypes.wintypes import BOOL, UINT, LONG, LPCWSTR, HWND, WPARAM, LPARAM, \

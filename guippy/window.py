@@ -53,7 +53,7 @@ class Window(object):
                 hwnd = func(*args)
                 if hwnd:
                     return hwnd
-            except WindowsError, err:
+            except WindowsError as err:
                 pass
             time.sleep(1)
         raise Timeout

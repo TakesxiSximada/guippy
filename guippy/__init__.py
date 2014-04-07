@@ -18,8 +18,8 @@ example.
 
 Let's get started.
 """
-__version__ = '$Revision$'
-__author__ = 'tak.esxima'
+__version__ = '0.1.2'
+__author__ = 'TakesxiSximada'
 __credits__ = (__author__, )
 
 from . import mouse

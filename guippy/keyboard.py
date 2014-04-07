@@ -2,11 +2,11 @@
 """To emulate keyboard.
 
 """
+import time
 from . import api
 from .api import keybd_event, KEYUP
 from .decorator import interval
 
-import time
 
 PUSH_DEFAULT = True
 RELEASE_DEFAULT = True

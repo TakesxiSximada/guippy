@@ -7,7 +7,7 @@ import os
 
 class Enum(object):
     """like to use enum of C.
-x    """
+    """
 
     DEFAULT_INCREMENT = lambda x: x+1
 

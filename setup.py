@@ -39,7 +39,7 @@ setup(name='guippy',
       author_email='takesxi.sximada@gmail.com',
       url='https://bitbucket.org/takesxi_sximada/guippy',
       license='GPLv3',
-      packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
+      packages=find_packages(exclude=['ez_setup', 'examples', 'tests', 'demo', 'scripts']),
       include_package_data=True,
       zip_safe=False,
       install_requires=[

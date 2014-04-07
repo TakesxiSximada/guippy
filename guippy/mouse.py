@@ -1,13 +1,24 @@
 #-*- coding: utf-8 -*-
 """This and that in order to control the mouses.
 """
-from .api import mouse_event, GetCursorPos, ME_MOVE, ME_ABSOLUTE, ME_WHEEL, \
-    ME_LEFTDOWN, ME_LEFTUP, ME_MIDDLEDOWN, ME_MIDDLEUP, ME_RIGHTDOWN, ME_RIGHTUP
-from .shortcut import Normalizer
-from .decorator import interval
-
 import ctypes
 from ctypes.wintypes import POINT
+from .shortcut import Normalizer
+from .decorator import interval
+from .api import (
+    mouse_event,
+    GetCursorPos,
+    ME_MOVE,
+    ME_ABSOLUTE,
+    ME_WHEEL,
+    ME_LEFTDOWN,
+    ME_LEFTUP,
+    ME_MIDDLEDOWN,
+    ME_MIDDLEUP,
+    ME_RIGHTDOWN,
+    ME_RIGHTUP,
+    )
+
 
 LEFT, MIDDLE, RIGHT = range(3)
 BUTTONDOWN_EVENT = {LEFT: ME_LEFTDOWN,

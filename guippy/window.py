@@ -22,7 +22,10 @@ from .api import (
 
 from .shortcut import Normalizer
 from .decorator import interval
-from .error import Timeout
+from .error import (
+    Timeout,
+    TooLong,
+    )
 
 from ctypes.wintypes import RECT
 import ctypes
@@ -31,8 +34,6 @@ import time
 TIMEOUT = 5
 BUFFER_LEN = 0xFF
 
-class TooLong(BaseException):
-    pass
 
 class Window(object):
     def __init__(self, cname=None, wname=None, hwnd=None, timeout=TIMEOUT):

@@ -1,6 +1,9 @@
 #-*- coding: utf-8 -*-
-class Error(BaseException):
+class Error(Exception):
     pass
 
 class Timeout(Error):
+    pass
+
+class TooLong(Error):
     pass

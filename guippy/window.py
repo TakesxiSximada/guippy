@@ -1,10 +1,24 @@
 #-*- coding: utf-8 -*-
 """For window procedures.
 """
-from .api import GetForegroundWindow, FindWindowEx, SetForegroundWindow, \
-    GetWindowRect, GW_CHILD, GW_ENABLEDPOPUP, GetWindow, OpenIcon, ShowWindow,\
-    SW_SHOWMAXIMIZED, CloseWindow, GetClassNameW, GetWindowTextW, SendMessageA,\
-    WM_CLOSE, MoveWindow
+from .api import (
+    GetForegroundWindow,
+    FindWindowEx,
+    SetForegroundWindow,
+    GetWindowRect,
+    GW_CHILD,
+    GW_ENABLEDPOPUP,
+    GetWindow,
+    OpenIcon,
+    ShowWindow,
+    SW_SHOWMAXIMIZED,
+    CloseWindow,
+    GetClassNameW,
+    GetWindowTextW,
+    SendMessageA,
+    WM_CLOSE,
+    MoveWindow,
+    )
 
 from .shortcut import Normalizer
 from .decorator import interval

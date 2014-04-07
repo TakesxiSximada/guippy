@@ -16,11 +16,11 @@ x    """
         self.increment = increment\
             if increment is not None else lambda x: x+1
 #self.DEFAULT_INCREMENT
-    
+
     def next(self, value=None, increment=None):
         if value is not None:
             self.cur = value
-            
+
         if increment is not None:
             self.increment = increment
 
@@ -33,8 +33,8 @@ enum = lambda *args, **kwds: Enum(*args, **kwds).next
 _MD = enum() # mkdir return code
 class Mkdir(object):
     """Make a directory."""
-    SUCCESS = _MD() 
-    FAIL = _MD()    
+    SUCCESS = _MD()
+    FAIL = _MD()
 
     @classmethod
     def p(cls, path):
@@ -48,5 +48,4 @@ class Mkdir(object):
             return cls.SUCCESS
 del _MD
 
-mkdir = Mkdir 
-              
+mkdir = Mkdir

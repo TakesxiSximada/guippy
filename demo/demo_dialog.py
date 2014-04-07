@@ -8,23 +8,23 @@ class DemoDialog(Tkinter.Frame):
     def __init__(self, wname='guippy', master=None):
         Tkinter.Frame.__init__(self, master)
         self.master.title(wname)
-        
+
         self.radio_value = IntVar()
         self.radio_values = {'test1': 0,
                              'test2': 1,
                              'test3': 2,
                              }
-        
+
         self.check_values = {'test1': BooleanVar(),
                              'test2': BooleanVar(),
                              'test3': BooleanVar(),
                              }
-        
+
 
         self.option_value = StringVar()
         self.entry_value = StringVar()
         self.result_value = StringVar()
-        
+
         self.radio_entry = StringVar()
         self.check_entry = StringVar()
 
@@ -49,7 +49,7 @@ class DemoDialog(Tkinter.Frame):
             _w = Checkbutton(ff, text=key, variable=val)
             _w.pack(**kwds)
         Entry(ff, textvariable=self.check_entry).pack(**kwds)
-        
+
     def apply(self):
         radio_val = self.radio_value.get()
         for key, value in self.radio_values.iteritems():
@@ -83,7 +83,7 @@ class DemoDialog(Tkinter.Frame):
     def radio(self, text):
         _r = Tkinter.Radiobutton(self, text=text)
         _r.pack(side=Tkinter.LEFT)
-        
+
     def check(self, text):
         _c = Tkinter.Checkbutton(self, text=text)
         _c.pack(side=Tkinter.LEFT)

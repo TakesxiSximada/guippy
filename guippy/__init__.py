@@ -45,4 +45,3 @@ __all__ = (
     'Mouse', 'Keyboard', 'Window', 'Clipboard',
     'api', 'error', 'shortcut', 'application',
     )
-

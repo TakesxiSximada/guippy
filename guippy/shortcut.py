@@ -7,11 +7,11 @@ import ctypes
 class Display:
     XMAX = api.GetSystemMetrics(api.SM_CXSCREEN)
     YMAX = api.GetSystemMetrics(api.SM_CYSCREEN)
-    
+
 class Normalizer(object):
     COEF_X = 0xFFFF/float(Display.XMAX)
     COEF_Y = 0xFFFF/float(Display.YMAX)
-    
+
     @classmethod
     def xx(cls, value):
         return int(value * cls.COEF_X)
@@ -33,7 +33,7 @@ class Normalizer(object):
         _point.x = cls.xx(_point.x)
         _point.y = cls.yy(_point.y)
         return _point
-        
+
 class Denormalizer(Normalizer):
     @classmethod
     def xx(cls, value):
@@ -49,7 +49,7 @@ class Denormalizer(Normalizer):
             unity = rc/abs(rc)
             rc += unity
         return rc
-    
+
 def get_window_handle(cname=None, wname=None, timeout=10, interval=1):
     func, args = None, None
     if cname == wname == None:
@@ -58,7 +58,7 @@ def get_window_handle(cname=None, wname=None, timeout=10, interval=1):
     else:
         func = api.FindWindowEx
         args = [None, None, str(cname), str(wname)]
-    
+
     for ii in range(timeout/interval):
         try:
             hwnd = func(*args)
@@ -76,4 +76,3 @@ def get_window_rect(hwnd, absolute=True):
     if absolute:
         rect = Normalize.rect(rect)
     return rect
-

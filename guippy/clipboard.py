@@ -4,7 +4,7 @@
 from .api import HWND, GlobalLock, OpenClipboard, GetClipboardData,\
     CF_UNICODETEXT, GlobalUnlock, CloseClipboard, GlobalAlloc, GMEM_DDESHARE,\
     wcscpy, EmptyClipboard, SetClipboardData, CF_TEXT
-    
+
 
 import ctypes
 
@@ -35,24 +35,23 @@ class Clipboard(object):
             SetClipboardData(CF_TEXT, hdata)
         finally:
             CloseClipboard()
-        
+
     @staticmethod
     def get(hwnd=None):
         """Get a clipboard data."""
         if hwnd is None:
             hwnd = HWND(0)
-        
+
         org_restype = GlobalLock.restype
 
         OpenClipboard(hwnd)
         try:
             hmem = GetClipboardData(CF_UNICODETEXT)
             GlobalLock.restype = ctypes.c_wchar_p
-            try: 
+            try:
                 return GlobalLock(ctypes.c_int(hmem)) # return unicode text
             finally:
                 GlobalUnlock(hmem)
         finally:
-            GlobalLock.restype = org_restype 
+            GlobalLock.restype = org_restype
             CloseClipboard()
-        

@@ -14,7 +14,7 @@ def main():
     gp = guippy.PedigreeGuippy()
     gp.kbd.windows('r')
     gp.kbd.enter('notepad')
-    names = Notepad.names()    
+    names = Notepad.names()
     for ii in range(3):
         try:
             gp.win.catch(*names)
@@ -24,7 +24,7 @@ def main():
             break
     else:
         raise guippy.error.Timeout
-    
+
     gp.win.active()
     gp.win.minimize()
     gp.win.maximize()
@@ -36,4 +36,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-        

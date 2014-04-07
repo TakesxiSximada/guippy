@@ -143,7 +143,7 @@ WM_DESTROY = _wm(0x0002)
 WM_CLOSE = _wm(0x0010)
 del _wm
 
-_me = util.enum(0x0001, lambda x: x<<1) 
+_me = util.enum(0x0001, lambda x: x<<1)
 ME_MOVE = _me()
 ME_LEFTDOWN = _me()
 ME_LEFTUP = _me()
@@ -374,23 +374,19 @@ class SystemMetrics(object):
     @staticmethod
     def get(screen):
         """Getting the system metrics.
-        
+
         The screen is constant for the system metrics. Must be either SM_CXSCREEN
         or SM_CYSCREEN. However, even if you give the other value, it will not
         error. It will return GetSystemMetrics() of Windows API returned value.
         """
         return user32.GetSystemMetrics(screen)
-    
+
     @classmethod
     def X(cls):
         """Getting X of system metcics."""
         return cls.get(cls.SM_CXSCREEN)
-        
+
     @classmethod
     def Y(cls):
         """Getting Y of system metrics."""
         return cls.get(cls.SM_CYSCREEN)
-        
-
-
-        

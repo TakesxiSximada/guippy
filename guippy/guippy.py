@@ -33,7 +33,7 @@ class PedigreeGuippy(object):
         xx = Normalizer.xx(xx) + rect.left
         yy = Normalizer.yy(yy) + rect.top
         self.ms.jump(xx, yy)
-        
+
         try:
             for ii in range(int(click)):
                 self.ms.click()

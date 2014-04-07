@@ -20,7 +20,7 @@ def main():
     def get_name():
         win = guippy.Window()
         win.catch()
-        
+
         _cname = win.get_cname()
         _wname = win.get_wname()
 

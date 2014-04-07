@@ -28,14 +28,14 @@ class KeyboardCore(object):
         """Push the key.
         """
         return keybd_event(code, 0, 0, 0)
-        
+
     @classmethod
     @interval
     def release(cls, code):
         """Release the key.
         """
         return keybd_event(code, 0, KEYUP, 0)
-    
+
     @classmethod
     def key(cls, code, push=PUSH_DEFAULT, release=RELEASE_DEFAULT):
         if push:
@@ -85,7 +85,7 @@ class KeyboardElement(KeyboardCore):
     def fn(cls):
         """Type the fn key."""
         assert False, 'not support'
-    
+
     @classmethod
     @special_key
     def shift(cls):
@@ -126,7 +126,7 @@ class KeyboardElement(KeyboardCore):
     def windows(cls, *args, **kwds):
         cls._windows(*args, **kwds)
         time.sleep(1)
-        
+
 
     @classmethod
     @special_key
@@ -161,12 +161,12 @@ class KeyboardElement(KeyboardCore):
     @special_key
     def backspace(cls):
         return api.VK_BACK
-    
+
     @classmethod
     @special_key
     def insert(cls):
         return api.INSERT
-    
+
     @classmethod
     @special_key
     def delete(cls):
@@ -302,7 +302,7 @@ class Keycode(object):
                   '?': '/',
                   '_': api.VK_UNDERLINE,
                   }
-    
+
     @classmethod
     def char2codes(cls, char):
         char = str(char)
@@ -319,7 +319,7 @@ class Keycode(object):
         else: # on shift procedure
             yield api.VK_LSHIFT, True, False
             shift_on = True
-        
+
         code = None
         try:
             code = cls.CHAR_CODE[char]
@@ -327,7 +327,7 @@ class Keycode(object):
             code = ord(char.upper())
         assert code, 'not support char: {0}'.format(char)
         yield code, True, True
-        
+
         # shift procedure
         if shift_on:
             yield api.VK_LSHIFT, False, True

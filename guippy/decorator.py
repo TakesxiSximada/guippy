@@ -17,5 +17,3 @@ def specialkey(func):
         cls.punch(message)
         cls.key(code, push=False, pull=True) # pull key
     return _wrap
-
-

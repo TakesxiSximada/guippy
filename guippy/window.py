@@ -41,7 +41,7 @@ class Window(object):
         else:
             func = FindWindowEx
             args = [None, None, cname, wname]
-        
+
         count_generator = None
         if timeout == 0:
             count_generator = itertools.count
@@ -57,7 +57,7 @@ class Window(object):
                 pass
             time.sleep(1)
         raise Timeout
-         
+
     def catch(self, cname=None, wname=None, timeout=None):
         """Search window handle for cname and wname."""
         self.cname = cname
@@ -88,7 +88,7 @@ class Window(object):
 
     def close(self):
         SendMessageA(self.hwnd, WM_CLOSE, 0, 0)
-    
+
     def get_rect(self, normalize=True):
         rect = RECT()
         lprect = ctypes.pointer(rect)
@@ -108,7 +108,7 @@ class Window(object):
             if len(name.value) < length:
                 return name.value
         raise TooLong()
-    
+
     def get_wname(self):
         for ii in range(1, 5):
             length = BUFFER_LEN * ii
@@ -135,13 +135,13 @@ class Window(object):
     @height.setter
     def height(self, value):
         self.resize(height=value)
-        
+
     def restore(self):
         self.minimize()
         OpenIcon(self.hwnd)
         self.active()
         time.sleep(1)
-    
+
     def maximize(self):
         ShowWindow(self.hwnd, SW_SHOWMAXIMIZED)
         time.sleep(1)

@@ -38,25 +38,25 @@ class DemoDialogTest(unittest.TestCase):
 
     def sleep(self):
         time.sleep(self.SLEEP)
-    
+
     def apply(self):
         xx, yy = self.APPLY
         self.gp.chase(xx, yy, click=True)
 
     def get_radio_value(self):
-        xx, yy = self.RADIO_ENTRY 
+        xx, yy = self.RADIO_ENTRY
         self.gp.chase(xx, yy, click=True)# check entry
         line =  self.gp.get_line()
         return line.strip()
 
     def get_check_values(self):
-        xx, yy = self.CHECK_ENTRY 
+        xx, yy = self.CHECK_ENTRY
         self.gp.chase(xx, yy, click=True)# check entry
         line = self.gp.get_line()
         for name in map(lambda line: line.strip(), line.split(',')):
             if name != '':
                 yield name
-    
+
     def setUp(self):
         self.apply()
         if self.get_radio_value() != '':
@@ -71,11 +71,11 @@ class DemoDialogTest(unittest.TestCase):
 
         check_patterns = [ptn for ii in range(1, len(self.CHECKS))
                           for ptn in itertools.combinations(sorted(self.CHECKS.items()), ii)]
-        
+
         for radio_name, radio_coord in sorted(self.RADIOS.items()):
             xx, yy = radio_coord
             self.gp.chase(xx, yy, click=True)
-            
+
             for ptn in check_patterns:
                 check_names = sorted([name for name, _tmp in ptn])
                 for check_name, check_coord in ptn:
@@ -92,6 +92,6 @@ class DemoDialogTest(unittest.TestCase):
                 for check_name, check_coord in ptn:
                     xx, yy = check_coord
                     self.gp.chase(xx, yy, click=True)
-                
+
 if __name__ == '__main__':
     unittest.main()

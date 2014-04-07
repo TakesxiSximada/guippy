@@ -1,12 +1,24 @@
 #-*- coding: utf-8 -*-
 """For clipboard.
 """
-from .api import HWND, GlobalLock, OpenClipboard, GetClipboardData,\
-    CF_UNICODETEXT, GlobalUnlock, CloseClipboard, GlobalAlloc, GMEM_DDESHARE,\
-    wcscpy, EmptyClipboard, SetClipboardData, CF_TEXT
-
-
 import ctypes
+from .api import (
+    HWND,
+    GlobalLock,
+    OpenClipboard,
+    GetClipboardData,
+    CF_UNICODETEXT,
+    GlobalUnlock,
+    CloseClipboard,
+    GlobalAlloc,
+    GMEM_DDESHARE,
+    wcscpy,
+    EmptyClipboard,
+    SetClipboardData,
+    CF_TEXT,
+    )
+
+
 
 def _get_unicode_as_globaldata(data):
     org_restype = GlobalLock.restype

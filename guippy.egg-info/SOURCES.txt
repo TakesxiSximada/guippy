@@ -1,0 +1,9 @@
+setup.cfg
+setup.py
+guippy/__init__.py
+guippy.egg-info/PKG-INFO
+guippy.egg-info/SOURCES.txt
+guippy.egg-info/dependency_links.txt
+guippy.egg-info/entry_points.txt
+guippy.egg-info/not-zip-safe
+guippy.egg-info/top_level.txt

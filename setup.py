@@ -9,15 +9,17 @@ if sys.argv[-1] == 'publish':
     os.system('python setup.py sdist upload')
     sys.exit()
 
-long_description = 'Control the Windows GUI'
+description = long_description = 'Control the Windows GUI'
 try:
     with open('README', 'rb') as fp:
         long_description = fp.read()
+except (OSError, IOError) as err:
+    pass
 
 
 setup(name='guippy',
       version=version,
-      description="Control the Windows GUI",
+      description=description,
       long_description=long_description,
       classifiers=[
           'Development Status :: 1 - Alpha',

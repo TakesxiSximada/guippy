@@ -3,11 +3,23 @@
 
 I/F for to call Windows API, and those related to it.
 """
-from . import util
 import ctypes
 from ctypes import WINFUNCTYPE
-from ctypes.wintypes import BOOL, UINT, LONG, LPCWSTR, HWND, WPARAM, LPARAM, \
-    RECT, HGLOBAL, LPVOID, HANDLE, LPWSTR
+from ctypes.wintypes import (
+    BOOL,
+    UINT,
+    LONG,
+    LPCWSTR,
+    HWND,
+    WPARAM,
+    LPARAM,
+    RECT,
+    HGLOBAL,
+    LPVOID,
+    HANDLE,
+    LPWSTR,
+    )
+from . import util
 
 INT = ctypes.c_int
 WPARAM = ctypes.c_int32

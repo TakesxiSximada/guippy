@@ -119,7 +119,7 @@ _OpenClipboard = get_user32_api('OpenClipboard', BOOL, _en)
 
 def OpenClipboard(*args, **kwds):
     res =  _OpenClipboard(*args, **kwds)
-    time.sleep(0.5)
+    time.sleep(1)
     return res
 
 CloseClipboard = get_user32_api('CloseClipboard', BOOL, _en)

@@ -18,7 +18,7 @@ ASCII_CHARS = string.letters + string.digits + string.punctuation
 
 class GuippyTest(TestCase):
     NOTEPAD = u'Notepad', u'無題 - メモ帳'
-    
+
     def active_notepad(self):
         try:
             win = guippy.Window()
@@ -33,13 +33,13 @@ class GuippyTest(TestCase):
 class NormalizeTest(GuippyTest):
     def test_normalize_denormalize(self):
         from guippy.shortcut import Normalizer, Denormalizer
-        
+
         def _func(normalize, denormalize, num):
             normal = normalize(num)
             ans = denormalize(normal)
             self.assert_(area(ans, num, 1),
                          '{0} -> {1} -> {2}'.format(num, normal, ans))
-            
+
         for ii in range(LOOP_MAX):
             _func(Normalizer.xx, Denormalizer.xx, ii)
             _func(Normalizer.yy, Denormalizer.yy, ii)
@@ -72,7 +72,7 @@ class WindowTest(GuippyTest):
         self.win.catch()
         hwnd_aa = self.win.hwnd
         guippy.Keyboard.windows('d')
-        
+
         hwnd_bb = self.win.get_window()
         self.assertEqual(hwnd_aa, hwnd_bb)
         guippy.Keyboard.windows('d')
@@ -80,7 +80,7 @@ class WindowTest(GuippyTest):
     def test_rect(self):
         self.win.get_rect(True)
         self.win.get_rect(False)
-    
+
     def test_get_popup(self):
         self.win.get_popup()
 
@@ -100,7 +100,7 @@ class WindowSizeTest(GuippyTest):
     MARGIN = 19
     SIZE_PATTERN = (ii for ii in xrange(100, 200))
     MESSAGE = 'now = {0}, before = {1}'
-    
+
     def check(self, now, before):
         _inf = before - self.MARGIN
         _sup = before + self.MARGIN
@@ -114,7 +114,7 @@ class WindowSizeTest(GuippyTest):
             win.width = ii
             self.check(win.width, ii)
         win.width = org
-       
+
     def _test_height(self):
         win = guippy.Window()
         win.catch()
@@ -125,11 +125,16 @@ class WindowSizeTest(GuippyTest):
         win.height = org
 
 class WindowMoveTest(GuippyTest):
+    def setUp(self):
+        mouse = guippy.Mouse()
+        mouse.jump(1, 1)
+
     def test_move(self):
+        self.active_notepad()
         win = guippy.Window()
         win.catch()
         org = win.get_rect(normalize=False)
-        for ii in range(800):
+        for ii in range(10, 100):
             top = ii
             left = int(top * 1.5)
 
@@ -140,6 +145,7 @@ class WindowMoveTest(GuippyTest):
             self.assertEqual(top, now.top)
 
         win.move(org.left, org.top)
+        win.close()
 
 class KeyboardTest(GuippyTest):
     def _test_punch(self):
@@ -163,16 +169,18 @@ class KeycodeTest(GuippyTest):
             pass # OK
         else:
             self.fail(codes)
-    
+
     def test_func2codes(self):
         gen = guippy.keyboard.Keycode.func2codes(1)
         self.assertEqual((112, True, True), gen.next())
-        
+
 class ClipboardTest(GuippyTest):
     def test_test(self):
+        import pdb; pdb.set_trace()
         data = ASCII_CHARS
         guippy.Clipboard.set(data)
-        self.assertEqual(data, guippy.Clipboard.get())
+        buf = guippy.Clipboard.get()
+        self.assertEqual(data, buf)
 
 
 class MouseTest(GuippyTest):
@@ -182,7 +190,7 @@ class MouseTest(GuippyTest):
             self.assertEqual(ms.now(), ms.now())
             self.assertEqual(ms.now(True), ms.now(True))
             self.assertEqual(ms.now(False), ms.now(False))
-            
+
     def jumping_test(self, ms, normalize, absolute,
                       jump_coord, prediction_coord, now_coord, width):
         fmt = 'now={0}, prediction={1}'
@@ -195,25 +203,25 @@ class MouseTest(GuippyTest):
             #                 fmt.format(now_xx, ans_xx))
             #self.assert_(area(now_yy, ans_yy, width),
             #                 fmt.format(now_yy, ans_yy))
-        
+
     def test_jump_normalize_absolute(self):
         ms = guippy.Mouse()
         normalize = True
         absolute = True
-        
+
         def jump_coord():
-            return random.randint(0, 0xFFFF), random.randint(0, 0xFFFF)
+            return random.randint(1, 300), random.randint(1, 300)
 
         def prediction_coord(xx, yy):
             return xx, yy
-        
+
         def now_coord(xx, yy):
             return ms.now()
-        
+
         width = 100
         self.jumping_test(ms, normalize, absolute,
                           jump_coord, prediction_coord, now_coord, width)
-        
+
     def test_jump_unnormalize_unabsolute(self):
         from guippy.shortcut import Display
         ms = guippy.Mouse()
@@ -223,17 +231,17 @@ class MouseTest(GuippyTest):
         def jump_coord():
             _ = lambda n: random.randint(-n, n)
             return _(Display.XMAX), _(Display.YMAX)
-        
+
         def prediction_coord(xx, yy):
             now_xx, now_yy = ms.now(normalize)
             return now_xx + xx, now_yy + yy
-        
+
         def now_coord(*args, **kwds):
             return ms.now(normalize)
         width = 10
         self.jumping_test(ms, normalize, absolute,
                           jump_coord, prediction_coord, now_coord, width)
-        
+
 
     def test_point(self):
         mouse = guippy.Mouse()

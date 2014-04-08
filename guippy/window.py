@@ -1,6 +1,10 @@
 #-*- coding: utf-8 -*-
 """For window procedures.
 """
+import time
+import ctypes
+from ctypes.wintypes import RECT
+
 from .api import (
     GetForegroundWindow,
     FindWindowEx,
@@ -27,9 +31,6 @@ from .error import (
     TooLong,
     )
 
-from ctypes.wintypes import RECT
-import ctypes
-import time
 
 TIMEOUT = 5
 BUFFER_LEN = 0xFF
@@ -83,12 +84,14 @@ class Window(object):
     def active(self):
         SetForegroundWindow(self.hwnd)
 
+    @interval
     def move(self, left, top):
         rect = self.get_rect(normalize=False)
         width = rect.right - rect.left
         height = rect.bottom - rect.top
         repaint = 1
-        return MoveWindow(self.hwnd, left, top, width, height, repaint)
+        res = MoveWindow(self.hwnd, left, top, width, height, repaint)
+        return res
 
     def resize(self, width=None, height=None):
         rect = self.get_rect(normalize=False)

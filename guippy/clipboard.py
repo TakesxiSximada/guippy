@@ -12,12 +12,13 @@ from .api import (
     CloseClipboard,
     GlobalAlloc,
     GMEM_DDESHARE,
+    GHND,
     wcscpy_s,
     EmptyClipboard,
     SetClipboardData,
     CF_TEXT,
     )
-
+from .decorator import interval
 
 
 def _get_unicode_as_globaldata(data):
@@ -25,7 +26,7 @@ def _get_unicode_as_globaldata(data):
     hdata = None
     try:
         length = len(data)
-        hdata = GlobalAlloc(GMEM_DDESHARE, length+1)
+        hdata = GlobalAlloc(GMEM_DDESHARE|GHND, length+1)
         ptr = GlobalLock(hdata)
         try:
             wcscpy_s(ctypes.c_wchar_p(ptr), length, data)
@@ -52,6 +53,7 @@ class Clipboard(object):
     @staticmethod
     def get(hwnd=None):
         """Get a clipboard data."""
+        res = None
         if hwnd is None:
             hwnd = HWND(0)
 
@@ -62,9 +64,10 @@ class Clipboard(object):
             hmem = GetClipboardData(CF_UNICODETEXT)
             GlobalLock.restype = ctypes.c_wchar_p
             try:
-                return GlobalLock(ctypes.c_int(hmem)) # return unicode text
+                res = GlobalLock(ctypes.c_int(hmem)) # return unicode text
             finally:
                 GlobalUnlock(hmem)
         finally:
             GlobalLock.restype = org_restype
             CloseClipboard()
+        return  res

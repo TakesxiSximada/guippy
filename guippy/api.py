@@ -3,6 +3,7 @@
 
 I/F for to call Windows API, and those related to it.
 """
+import time
 import ctypes
 from ctypes import WINFUNCTYPE
 from ctypes.wintypes import (
@@ -57,6 +58,7 @@ get_kernel32_api = lambda *args, **kwds: fptr_from_dll(kernel32, *args, **kwds)
 ## ~~~ stdlib ~~~
 strcpy = ctypes.cdll.msvcrt.strcpy
 wcscpy = ctypes.cdll.msvcrt.wcscpy
+wcscpy_s = ctypes.cdll.msvcrt.wcscpy_s
 
 ## ~~~ WindowsAPI ~~~
 _en = errcheck_null
@@ -113,7 +115,13 @@ GlobalAlloc = get_kernel32_api('GlobalAlloc', HGLOBAL, _en)
 GlobalFree = get_kernel32_api('GlobalFree', HGLOBAL, errcheck_nonull)
 GlobalLock = get_kernel32_api('GlobalLock', LPVOID, _en)
 GlobalUnlock = get_kernel32_api('GlobalUnlock', BOOL, _en)
-OpenClipboard = get_user32_api('OpenClipboard', BOOL, _en)
+_OpenClipboard = get_user32_api('OpenClipboard', BOOL, _en)
+
+def OpenClipboard(*args, **kwds):
+    res =  _OpenClipboard(*args, **kwds)
+    time.sleep(0.5)
+    return res
+
 CloseClipboard = get_user32_api('CloseClipboard', BOOL, _en)
 GetClipboardData = get_user32_api('GetClipboardData', HANDLE, _en)
 SetClipboardData = get_user32_api('SetClipboardData', HANDLE, _en)

@@ -12,7 +12,7 @@ from .api import (
     CloseClipboard,
     GlobalAlloc,
     GMEM_DDESHARE,
-    wcscpy,
+    wcscpy_s,
     EmptyClipboard,
     SetClipboardData,
     CF_TEXT,
@@ -24,10 +24,11 @@ def _get_unicode_as_globaldata(data):
     org_restype = GlobalLock.restype
     hdata = None
     try:
-        hdata = GlobalAlloc(GMEM_DDESHARE, len(data)+1)
+        length = len(data)
+        hdata = GlobalAlloc(GMEM_DDESHARE, length+1)
         ptr = GlobalLock(hdata)
         try:
-            wcscpy(ctypes.c_wchar_p(ptr), data)
+            wcscpy_s(ctypes.c_wchar_p(ptr), length, data)
         finally:
             GlobalUnlock(hdata)
     finally:

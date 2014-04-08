@@ -176,7 +176,6 @@ class KeycodeTest(GuippyTest):
 
 class ClipboardTest(GuippyTest):
     def test_test(self):
-        import pdb; pdb.set_trace()
         data = ASCII_CHARS
         guippy.Clipboard.set(data)
         buf = guippy.Clipboard.get()

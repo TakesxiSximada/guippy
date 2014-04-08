@@ -22,19 +22,20 @@ __version__ = '0.1.2'
 __author__ = 'TakesxiSximada'
 __credits__ = (__author__, )
 
-from . import mouse
-from . import keyboard
-from . import window
-from . import clipboard
-from . import api
-from . import error
-from . import shortcut
-from . import application
-from . import *  # import all objects in guippy.
+# from . import mouse
+# from . import keyboard
+# from . import window
+# from . import clipboard
+# from . import api
+# from . import error
+# from . import shortcut
+# from . import application
+#from . import *  # import all objects in guippy.
 from .mouse import Mouse
 from .keyboard import Keyboard
 from .window import Window
 from .clipboard import Clipboard
+from .guippy import Guippy
 
 
 __all__ = (

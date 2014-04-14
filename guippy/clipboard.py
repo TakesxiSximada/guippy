@@ -1,6 +1,7 @@
 #-*- coding: utf-8 -*-
 """For clipboard.
 """
+import time
 import ctypes
 from .api import (
     HWND,
@@ -43,6 +44,7 @@ class Clipboard(object):
     def set(data):
         """Copy a data to clipboard."""
         hdata = _get_unicode_as_globaldata(data)
+        time.sleep(0.3)
         OpenClipboard(None)
         try:
             EmptyClipboard()
@@ -59,6 +61,7 @@ class Clipboard(object):
 
         org_restype = GlobalLock.restype
 
+        time.sleep(0.3)
         OpenClipboard(hwnd)
         try:
             hmem = GetClipboardData(CF_UNICODETEXT)

@@ -115,7 +115,7 @@ class Button(object):
          A variable num is wheel count. The num greater than 0, TEMAE.
         The num less than 0, MUKOU.
         """
-        return ME_WHEEL|ME_MOVE, 0, 0, num
+        return ME_WHEEL, 0, 0, num
 
 class Position(object):
     """Control position of mouse pointer.

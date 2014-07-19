@@ -62,7 +62,7 @@ class Window(object):
         if timeout == 0:
             count_generator = itertools.count
         else:
-            count_generator = lambda : xrange(timeout)
+            count_generator = lambda : range(timeout)
 
         for ii in count_generator():
             try:

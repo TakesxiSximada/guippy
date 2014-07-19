@@ -9,13 +9,17 @@ if sys.argv[-1] == 'publish':
     os.system('python setup.py sdist upload')
     sys.exit()
 
-description = long_description = 'Control the Windows GUI'
+description = long_description = u'Control the Windows GUI'
 try:
     with open('README', 'rb') as fp:
-        long_description = fp.read()
+        long_description = fp.read().decode('utf8')
 except (OSError, IOError) as err:
     pass
 
+tests_require = [
+    'six',
+    'nose',
+    ]
 
 setup(name='guippy',
       version=version,
@@ -33,6 +37,7 @@ setup(name='guippy',
           'Programming Language :: Python',
           'Programming Language :: Python :: 2.7',
           'Programming Language :: Python :: 3.3',
+          'Programming Language :: Python :: 3.4',
           'Topic :: Office/Business',
       ], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
       keywords='',
@@ -43,9 +48,13 @@ setup(name='guippy',
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests', 'demo', 'scripts']),
       include_package_data=True,
       zip_safe=False,
+      test_require=tests_require,
       install_requires=[
           # -*- Extra requirements: -*-
       ],
+      extras_require={
+          'testing': tests_require,
+          },
       entry_points="""
       # -*- Entry points: -*-
       """,

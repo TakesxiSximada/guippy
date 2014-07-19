@@ -10,11 +10,13 @@ import random
 import unittest
 from unittest import TestCase
 
+import six
+
 # test
 area = lambda target, base, width=10: (base-width) <= target <= (base+width)
 
 LOOP_MAX = 0xFFF
-ASCII_CHARS = string.letters + string.digits + string.punctuation
+ASCII_CHARS = string.ascii_letters + string.digits + string.punctuation
 
 class GuippyTest(TestCase):
     NOTEPAD = u'Notepad', u'無題 - メモ帳'
@@ -98,7 +100,7 @@ class WindowTest(GuippyTest):
 
 class WindowSizeTest(GuippyTest):
     MARGIN = 19
-    SIZE_PATTERN = (ii for ii in xrange(100, 200))
+    SIZE_PATTERN = (ii for ii in range(100, 200))
     MESSAGE = 'now = {0}, before = {1}'
 
     def check(self, now, before):
@@ -157,14 +159,14 @@ class KeyboardTest(GuippyTest):
 class KeycodeTest(GuippyTest):
     def test_char2codes(self):
         gen = guippy.keyboard.Keycode.char2codes('C')
-        self.assertEqual((160, True, False), gen.next()) # push shift
-        self.assertEqual((67, True, True), gen.next())   # push and release 'C'
-        self.assertEqual((160, False, True), gen.next()) # release shift
+        self.assertEqual((160, True, False), six.next(gen)) # push shift
+        self.assertEqual((67, True, True), six.next(gen))   # push and release 'C'
+        self.assertEqual((160, False, True), six.next(gen)) # release shift
 
         gen = guippy.keyboard.Keycode.char2codes('c')
-        self.assertEqual((67, True, True), gen.next())   # push and release 'C'
+        self.assertEqual((67, True, True), six.next(gen))   # push and release 'C'
         try:
-            codes = gen.next()
+            codes = six.next(gen)
         except StopIteration:
             pass # OK
         else:
@@ -172,7 +174,7 @@ class KeycodeTest(GuippyTest):
 
     def test_func2codes(self):
         gen = guippy.keyboard.Keycode.func2codes(1)
-        self.assertEqual((112, True, True), gen.next())
+        self.assertEqual((112, True, True), six.next(gen))
 
 class ClipboardTest(GuippyTest):
     def test_test(self):
@@ -190,7 +192,7 @@ class MouseTest(GuippyTest):
             self.assertEqual(ms.now(True), ms.now(True))
             self.assertEqual(ms.now(False), ms.now(False))
 
-    def jumping_test(self, ms, normalize, absolute,
+    def jumping(self, ms, normalize, absolute,
                       jump_coord, prediction_coord, now_coord, width):
         fmt = 'now={0}, prediction={1}'
         for ii in range(LOOP_MAX):
@@ -218,8 +220,8 @@ class MouseTest(GuippyTest):
             return ms.now()
 
         width = 100
-        self.jumping_test(ms, normalize, absolute,
-                          jump_coord, prediction_coord, now_coord, width)
+        self.jumping(ms, normalize, absolute,
+                     jump_coord, prediction_coord, now_coord, width)
 
     def test_jump_unnormalize_unabsolute(self):
         from guippy.shortcut import Display
@@ -238,8 +240,8 @@ class MouseTest(GuippyTest):
         def now_coord(*args, **kwds):
             return ms.now(normalize)
         width = 10
-        self.jumping_test(ms, normalize, absolute,
-                          jump_coord, prediction_coord, now_coord, width)
+        self.jumping(ms, normalize, absolute,
+                     jump_coord, prediction_coord, now_coord, width)
 
 
     def test_point(self):

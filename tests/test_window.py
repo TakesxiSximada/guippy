@@ -1,5 +1,8 @@
 #-*- coding: utf-8 -*-
-import Tkinter as tkinter
+try:
+    import tkinter
+except ImportError:
+    import Tkinter as tkinter
 
 def main():
     root = tkinter.Tk()

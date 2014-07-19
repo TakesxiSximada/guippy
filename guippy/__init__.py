@@ -18,7 +18,7 @@ example.
 
 Let's get started.
 """
-__version__ = '0.1.4'
+__version__ = '0.1.5'
 __author__ = 'TakesxiSximada'
 __credits__ = (__author__, )
 

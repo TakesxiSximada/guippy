@@ -19,6 +19,7 @@ except (OSError, IOError) as err:
 tests_require = [
     'six',
     'nose',
+    'tox',
     ]
 
 setup(name='guippy',

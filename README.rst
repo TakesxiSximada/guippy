@@ -1,6 +1,10 @@
 Graphical User Interfaces Procedures for PYthon.
 =======================================================
 
+.. image:: https://drone.io/github.com/TakesxiSximada/guippy/status.png
+
+.. image:: https://circleci.com/gh/TakesxiSximada/guippy.svg?style=svg
+
 The guippy emulate various operations of computer users. It provides the
 ability for emulate keyboards, mouses, window system, and clipboards. By using
 this, you can run your computer automatically.
